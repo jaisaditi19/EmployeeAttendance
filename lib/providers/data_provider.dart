@@ -18,18 +18,20 @@ final attendanceBoxProvider = Provider<Box<Attendance>>((ref) {
 });
 
 // Stream providers for watching data changes
-final employeesProvider = StreamProvider<List<Employee>>((ref) {
+final employeesProvider = StreamProvider<List<Employee>>((ref) async* {
   final box = ref.watch(employeeBoxProvider);
-  print("Box length: ${box.length}");
-  return box.watch().map((_) => box.values.toList());
+  yield box.values.toList();
+  yield* box.watch().map((_) => box.values.toList());
 });
 
-final paymentsProvider = StreamProvider<List<Payment>>((ref) {
+final paymentsProvider = StreamProvider<List<Payment>>((ref) async* {
   final box = ref.watch(paymentBoxProvider);
-  return box.watch().map((_) => box.values.toList());
+  yield box.values.toList();
+  yield* box.watch().map((_) => box.values.toList());
 });
 
-final attendanceProvider = StreamProvider<List<Attendance>>((ref) {
+final attendanceProvider = StreamProvider<List<Attendance>>((ref) async* {
   final box = ref.watch(attendanceBoxProvider);
-  return box.watch().map((_) => box.values.toList());
+  yield box.values.toList();
+  yield* box.watch().map((_) => box.values.toList());
 });
